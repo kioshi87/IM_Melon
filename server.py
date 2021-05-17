@@ -20,11 +20,25 @@ def enter_login_info():
 
     email_address = request.get_json().get("email_address")
     password = request.get_json().get("password")
-
+    admin_email = "easha@gmail.com"
+    admin_password = "abcde"
     #subscriber = crud.get_user_by_email(email)
+    if email_address==admin_email and password==admin_password:
+        """Redirects user to admin page"""
+
+        return redirect('/admin')
     if subscriber and subscriber.password == password:
         session['subscriber_number'] = subscriber.subscriber_number
 
+
+@app.route('/admin')
+def show_admin_page():
+    """Renders admin page"""
+    return render_template('admin.html')
+
+@app.route('/admin', methods=["POST"])
+def update_melons_database():
+    """Admin can now update database"""
 
 @app.route('/create_account')
 def show_create_account():
@@ -40,7 +54,9 @@ def add_new_subscriber():
     email_address = request.get_json().get("email_address")
     phone_number = request.get_json().get("phone_number")
     password = request.get_json().get("password")
+    #check if user exists
 
+    return redirect('/login')
 
 @app.route('/subscriber/<subscriber_name>')
 def view_subscriber():
