@@ -38,8 +38,8 @@ if __name__ == '__main__':
     # too annoying; this will tell SQLAlchemy not to print out every
     # query it executes.
     
-    os.system('dropdb [db name here]')
-    os.system('createdb [db name here]')
+    os.system('dropdb melon')
+    os.system('createdb melon')
     connect_to_db(app)
     db.create_all()
     seed_csv_data('melons.csv')
