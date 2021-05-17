@@ -4,36 +4,41 @@ from model import db, AlertSystem,  Melons,   Messages, Subscribers,  connect_to
 
 """CRUD operations."""
 
-def create_user(email, password):
+def create_subscribers(email, password, address, subscriber_number):
     """Create and return a new user."""
-
-    user = Subscribers(email=email, password=password)
-
-    db.session.add(user)
+    subcriber= Subscribers(email=email, password=password, address=address, subscriber_number=subscriber_number)
+    db.session.add(subcriber)
     db.session.commit()
 
-    return user
+    return subcriber
 
 def create_alert(id, melon_name, subscriber_number, message_id):
     alert = AlertSystem(id=id, melon_name=melon_name, subscriber_number=subscriber_number, message_id=message_id)
     db.session.add(alert)
     db.session.commit()
 
-def get_users():
+def create_messages( subscriber_number, melon_name, qty_alert, type_alert, season_alert):
+    message= AlertSystem(melon_name=melon_name, subscriber_number=subscriber_number, season_alert=season_alert, qty_alert=qty_alert, type_alert=type_alert)
+    db.session.add(message)
+    db.session.commit()
+
+def get_subscriber():
     """Return all users."""
 
     return Subscribers.query.all()
 
-
-def get_user_by_id(user_id):
+def get_subscriber_by_number(subscriber_number):
     """Return a user by primary key."""
-    return Subscribers.query.get(user_id)
+    return Subscribers.query.get(subscriber_number)
 
-
-def get_user_by_email(email):
+def get_subscriber_by_email(email):
     """Return a user by email."""
     return Subscribers.query.filter(Subscribers.email == email).first()
 
+def get_alerts():
+    """Return all users."""
+
+    return AlertSystem.query.all()
 
 if __name__ == '__main__':
     from server import app
