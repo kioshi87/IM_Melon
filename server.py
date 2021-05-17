@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect
 from model import connect_to_db
-import crud
+#import crud
 
 app = Flask(__name__)
 
@@ -20,21 +20,33 @@ def show_login():
 def enter_login_info():
     """Signing in, checks if user exists"""
 
-    email_address = request.get_json().get("email_address")
+    email = request.get_json().get("email")
     password = request.get_json().get("password")
+    subscriber = crud.get_subscriber_by_email(email)
     
     if subscriber and subscriber.password == password:
-        session['subscriber_number'] = subscriber.subscriber_number
+        session['subscriber_id'] = subscriber.subscriber_id
+        return redirect("/subscriber")
 
 
-@app.route('/update_database')
-def show_admin_page():
+@app.route('/add_new_melon')
+def show_add_melon_page():
     """Renders admin page"""
-    return render_template('update_database.html')
+    return render_template('add_new_melon.html')
 
-@app.route('/update_database', methods=["POST"])
+@app.route('/add_new_melon', methods=["POST"])
 def update_melons_database():
-    """Admin can now update database"""
+    """Add new melon to database"""
+
+    name = request.get_json().get("name")
+    qty = request.get_json().get("qty")
+    mel_type = request.get_json().get("melon-type")
+    mel_season = request.get_json().get("melon-season")
+
+    #new_melon = crud.create_new_melon(name, qty, mel_type, mel_season)
+    #flash message
+
+    return redirect('/homepage')
 
 @app.route('/create_account')
 def show_create_account():
@@ -47,10 +59,13 @@ def add_new_subscriber():
     """Adding a new subscriber to database"""
 
     name = request.get_json().get("name")
-    email_address = request.get_json().get("email_address")
+    email = request.get_json().get("email")
     phone_number = request.get_json().get("phone_number")
     password = request.get_json().get("password")
-    #check if user exists
+    address = request.get_json().get("address")
+    notification = request.get_json().get("notification")
+    
+    #new_subscriber = crud.create_new_subscriber(name, email, password, phone_number, address, notification)
 
     return redirect('/login')
 
