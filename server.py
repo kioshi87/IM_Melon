@@ -1,4 +1,6 @@
 from flask import Flask, render_template, redirect
+from model import connect_to_db
+import crud
 
 app = Flask(__name__)
 
@@ -20,23 +22,17 @@ def enter_login_info():
 
     email_address = request.get_json().get("email_address")
     password = request.get_json().get("password")
-    admin_email = "easha@gmail.com"
-    admin_password = "abcde"
-    #subscriber = crud.get_user_by_email(email)
-    if email_address==admin_email and password==admin_password:
-        """Redirects user to admin page"""
-
-        return redirect('/admin')
+    
     if subscriber and subscriber.password == password:
         session['subscriber_number'] = subscriber.subscriber_number
 
 
-@app.route('/admin')
+@app.route('/update_database')
 def show_admin_page():
     """Renders admin page"""
-    return render_template('admin.html')
+    return render_template('update_database.html')
 
-@app.route('/admin', methods=["POST"])
+@app.route('/update_database', methods=["POST"])
 def update_melons_database():
     """Admin can now update database"""
 
