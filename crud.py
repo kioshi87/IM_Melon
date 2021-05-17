@@ -1,5 +1,5 @@
 # create a new melon record, new subsscriber, subscriber is in
-from model import CountryCapital, db, User,  CountryPopulation,  CountryContinent,  CountryStats,  connect_to_db 
+from model import db, AlertSystem,  Melons,   Messages, Subscribers,  connect_to_db 
 
 
 """CRUD operations."""
@@ -7,28 +7,32 @@ from model import CountryCapital, db, User,  CountryPopulation,  CountryContinen
 def create_user(email, password):
     """Create and return a new user."""
 
-    user = User(email=email, password=password)
+    user = Subscribers(email=email, password=password)
 
     db.session.add(user)
     db.session.commit()
 
     return user
 
+def create_alert(id, melon_name, subscriber_number, message_id):
+    alert = AlertSystem(id=id, melon_name=melon_name, subscriber_number=subscriber_number, message_id=message_id)
+    db.session.add(alert)
+    db.session.commit()
 
 def get_users():
     """Return all users."""
 
-    return User.query.all()
+    return Subscribers.query.all()
 
 
 def get_user_by_id(user_id):
     """Return a user by primary key."""
-    return User.query.get(user_id)
+    return Subscribers.query.get(user_id)
 
 
 def get_user_by_email(email):
     """Return a user by email."""
-    return User.query.filter(User.email == email).first()
+    return Subscribers.query.filter(Subscribers.email == email).first()
 
 
 if __name__ == '__main__':
