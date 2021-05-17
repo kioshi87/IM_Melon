@@ -40,6 +40,23 @@ def get_alerts():
 
     return AlertSystem.query.all()
 
+def get_alerts_by_melon_name(melon_name):
+    """Return a user by email."""
+    return Melons.query.filter(Melons.melon_name == melon_name).first()
+
+def get_messages(quantity_alert):
+    """Return a user by email."""
+    return Messages.query.filter(Melons.quantity_alert== quantity_alert).first()
+
+def get_messages(type_alert):
+    """Return a user by email."""
+    return Messages.query.filter(Melons.type_alert== type_alert).first()
+
+def get_messages(season_alert):
+    """Return a user by email."""
+    return Messages.query.filter(Melons.season_alert== season_alert).first()
+
+
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)
