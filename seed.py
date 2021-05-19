@@ -2,28 +2,45 @@ import os
 import csv
 import crud #note, not currently a file
 from server import app
-from model import [insert class here], db, connect_to_db
+from model import AlertSystem, Melons, Messages, Subscribers, db, connect_to_db
 
+# def cast_int(str):
+#     try:
+#         n = int(str)
+#         return n
+#     except (ValueError, TypeError):
+#         return None
 
 def seed_csv_data(filename):
-    with open(filename, 'r') as csv_file:
-        reader = csv.DictReader(csv_file)
-        for row in reader:
-            for key in row:
-                if row[key] == '':
-                    row[key] = None
-            melons = [Class name] (
-            melon_name =  row['melon_name'],
-            melon_quantity = row['melon_quantity'],
-            melon_type = row['melon_type'],
-            melon_season = row['melon_season']
-            )
+    with open('data/melons.csv') as csv_file:
+        file = csv.reader(csv_file)
+        # for row in reader:
+        #     for key in row:
+        #         if row[key] == '':
+        #             row[key] = None
+        # melons = Melons (
+        #     # subscriber_number = cast_int(row['subscriber_number']),
+        #     melon_name =  row['melon_name'],
+        #     melon_qty = cast_int(row['melon_qty']),
+        #     melon_type = row['melon_type'],
+        #     melon_season = row['melon_season']
+        #     )
+        melon = crud.create_melons(melon_name, melon_qty, melon_type, melon_season)
 
-            db.session.add([insert seeded class name here])
-            db.session.commit()
+        
     csv_file.close()
 
 
+# def seed_users():
+#     for i in range(9):
+#         name = fake.name().split()
+#         username = ''.join(name)
+#         password = fake.password()
+#         subscriber_number = fake.subscriber_number()
+#         email = fake.email()
+#         city = fake.city()
+#         state = fake.state()
+#         crud.create_user(username, password, email, city, state)
 
 
 
@@ -42,4 +59,4 @@ if __name__ == '__main__':
     os.system('createdb melon')
     connect_to_db(app)
     db.create_all()
-    seed_csv_data('melons.csv')
+    # seed_csv_data('melons.csv')
