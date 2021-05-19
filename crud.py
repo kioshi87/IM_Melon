@@ -3,6 +3,13 @@ from model import db, AlertSystem,  Melons,   Messages, Subscribers,  connect_to
 
 
 """CRUD operations."""
+def create_melons(melon_name, melon_qty,melon_type, melon_season):
+    """Create and return a new melon."""
+    melon = Melons(melon_name=melon_name, melon_qty=melon_qty,melon_type=melon_type, melon_season=melon_season)
+    db.session.add(melon)
+    db.session.commit()
+
+    return melon
 
 def create_subscribers(email, password, address, subscriber_number):
     """Create and return a new user."""
