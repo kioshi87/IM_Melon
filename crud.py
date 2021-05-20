@@ -33,6 +33,17 @@ def get_all_subscriber():
     """Return all users."""
     return Subscribers.query.all()
 
+def get_all_subscriber_numbers():
+    """List of all subscriber numbers"""
+
+    all_subscribers = get_all_subscriber()
+    phone_numbers = []
+    for subscriber in all_subscribers:
+        number = subscriber.subscriber_number
+        phone_numbers.append(number)
+    
+    return phone_numbers 
+
 def get_subscriber_by_number(subscriber_number):
     """Return a user by number."""
     return Subscribers.query.get(subscriber_number)
