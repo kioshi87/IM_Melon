@@ -1,0 +1,45 @@
+.melon-card {
+  max-width: 23%;
+  margin: 0.5rem;
+}
+
+.melon-card h5 {
+  font-size: 1rem;
+}
+
+#shopping .filters {
+  min-width: 20%;
+}
+
+.loading-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  margin-top: 300px;
+}
+
+.loading-box img {
+   display: block;
+   max-height: 100px;
+   margin: auto;
+   animation: pulse 1s infinite;
+}
+
+.loading-box div {
+  font-size: 20px;
+  font-family: cursive;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.6);
+  }
+  to {
+    transform: scale(1);
+  }
+}
