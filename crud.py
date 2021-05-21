@@ -1,6 +1,8 @@
 # create a new melon record, new subsscriber, subscriber is in
 from model import db, AlertSystem,  Melons,   Messages, Subscribers,  connect_to_db 
-
+# from sqlalchemy.sql import func, cast
+# from datetime import datetime, date
+import sqlalchemy
 
 """CRUD operations."""
 def create_melons(melon_name, melon_qty,melon_type, melon_season):
