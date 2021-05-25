@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, session
+from flask import Flask, render_template, redirect, request, session, jsonify
 import os
 from twilio.rest import Client
 from model import connect_to_db
@@ -11,97 +11,102 @@ client = Client(account_sid, auth_token)
 twilio_number = '+19414131980'
 
 app = Flask(__name__)
-
+app.secret_key = "dev"
 ###HOMEPAGE, LOGIN AND LOGOUT###
 
-@app.route('/')
-def show_homepage():
-    """Show IM_melon homepage"""
+#@app.route('/api/login', methods=['POST']) #THIS IS THE ROUTE THAT HANDLES ADMIN LOGIN
+#def login():
+    #email = request.json.get('email') #thanks to that content-type header!
+    #password = request.json.get('password')
 
-    return render_template('homepage.html')
+    #result = None
+    # DO LOGIN VALIDATION HERE MIGHT LOOK LIKE...
+    # user = crud.get_user_by_email(email)
+    
+    # if user and user.password == password:
+    #     result = {
+    #         'name': user.name,
+    #         'email': user.email,
+    #         'user_id': user.user_id
+    #         }
+    # print('*' * 20)
+    #result = "if it's not None it will work"
 
-@app.route('/login', methods=["GET","POST"])
-def login():
-    """user login page"""
+    #print(result)
+    #return jsonify(result)
 
-    if request.method =="POST":
-        email = request.get_json().get("email_address")
-        password = request.get_json().get("password")
+@app.route('/api/subscribe', methods=['POST']) #THIS IS THE ROUTE THAT HANDLES SUBSCRIBERS
+def subscribe():
+    name = request.json.get('name') #thanks to that content-type header!
+    password = request.json.get('password')
+    email = request.json.get('email')
+    phone = request.json.get('phone')
+    #melon_name = request.json.get('melon_name')
 
-        subscriber = crud.get_subscriber_by_email(email_address)
+    add_subscriber = crud.create_subscribers(phone, name, email, password)
+    # DATABASE CHECKS AND CRUD FUNCTIONS GO HERE
+    # CREATE A NEW RECORD FOR THE SUBSCRIBER
+    
+    # RETURN SOME RESPONSE WITH SOME MESSAGE (SUCCESS/FAIL, etc)
+    result = {'status': 'success'}
+    return jsonify(result)
 
-        if subscriber and subscriber.password == password:
-            session['subscriber_number']=subscriber.subscriber_number
-            return redirect('/subscriber')
 
-    else:
-        return render_template('login.html')
 
-   
-@app.route('/logout')
-def logout():
+@app.route('/api/add_melon', methods=['POST']) #THIS IS THE ROUTE THAT ADDS MELONS FROM ADMIN PAGE
+def add_melon():
+    name = request.json.get('name')
+    quantity = request.json.get('quantity') 
+    melon_type = request.json.get('type')
+    season = request.json.get('season')
 
-    del session['subscriber_number']
-    #flash("You have been logged out")
+    add_melon = crud.create_melons(name, quantity, melon_type, season)
+    new_melon_alert(name, quantity)
+    # subscriber_alert_numbers = crud.get_all_subscriber_numbers()
+    # print(subscriber_alert_numbers)
+    # for num in subscriber_alert_numbers:
+    #     message = client.messages \
+    #         .create(
+    #         body=message,
+    #         from_=twilio_number,
+    #         to=num
+    #             )
+    #     print(message.sid)
+    #     print(message.status)
 
-    return redirect('/')
+    # DO YOUR TWILIO API CALL HERE (best to have that in a helper function that you call here)
+    # Probably something like query for all subscribers and then loop them one by one and text them
 
-###NEW ACCOUNT CREATION###
+    # RETURN SOME RESPONSE WITH SOME MESSAGE (SUCCESS/FAIL, etc)
+    result = {'status': 'success'}
+    return jsonify(result)
 
-@app.route('/create_account', methods=["GET","POST"])
-def add_new_subscriber():
-    """Adding a new subscriber to database"""
-
-    if request.method == "POST":
-        name = request.get_json().get("name")
-        email_address = request.get_json().get("email_address")
-        phone_number = request.get_json().get("phone_number")
-        password = request.get_json().get("password")
-        address = request.get_json().get("address")
-
-        new_subscriber = crud.create_subscribers(email_address, password, address, phone_number)
-        #flash("You are a subscriber now! Please login")
-        return redirect('/login')
-    else:
-        return render_template('new_account.html')
-
-###ADDING NEW MELONS###
-
-@app.route('/add_new_melon', methods=["GET", "POST"])
-def add_new_melon():
-    """Adding a new melon"""
-
-    if request.method == "POST":
-        add_new_melon_called = True
-        name = request.get_json().get("name")
-        qty = request.get_json().get("qty")
-        mel_type = request.get_json().get("melon-type")
-        mel_season = request.get_json().get("melon-season")
-
-        new_melon = crud.create_melons(name, qty, mel_type, mel_season)
-
-    else:
-        return render_template('add_new_melon.html')
 
 
 ###TWILIO SMS ROUTES###
-def new_melon_alert(subscriber_numbers, alert_message):
+def new_melon_alert(name,quantity):
     """Sends subscribers an alert message when new melon is added"""
 
-    subscriber_alert_numbers = crud.get_all_subscriber_numbers
-    if add_new_melon_called:
-        for num in subscriber_alert_numbers:
-            message = client.messages \
-                .create(
-                     body=message,
-                     from_=twilio_number,
-                     to=num
-                 )
-            print(message.sid)
-            print(message.status)
+    subscriber_alert_numbers = crud.get_all_subscriber_numbers()
+    print(subscriber_alert_numbers)
+    for num in subscriber_alert_numbers:
+        alert_message = client.messages \
+            .create(
+            body="New melon added! "+name+ " has been added, "+quantity+ " available right now.",
+            from_=twilio_number,
+            to=num
+                )
+        print(alert_message.sid)
+        print(alert_message.status)
 
+    
 
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def index(path):
+    return render_template('index.html')
 
-
-if __name__=='__main__':
+###################################################
+if __name__ == "__main__":
+    connect_to_db(app)
     app.run(debug=True, host='0.0.0.0')

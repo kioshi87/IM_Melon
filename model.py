@@ -28,20 +28,18 @@ class Subscriber(db.Model):
 
     __tablename__ = "subscribers"
 
-    subscriber_number = db.Column(db.Integer, 
-                       primary_key=True,
-                       autoincrement=True,
-                       )
-    melon_name = db.Column(db.String,
-                       db.ForeignKey("melons.melon_name")
-                       )
+    subscriber_number = db.Column(db.String(15), 
+                       primary_key=True)
+    #melon_name = db.Column(db.String,
+                       #db.ForeignKey("melons.melon_name")
+                       #)
     
-    name = db.Column(db.String(200), nullable=True)
+    name = db.Column(db.String(200))
     email = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String, nullable=True)
 
     def __repr__(self):
-        return f'<Subscriber subscriber_number={self.subscriber_number}>'
+        return f'<Subscriber subscriber_number={self.subscriber_number} name={self.name} email={self.email} password={self.password}>'
 
 
 def connect_to_db(flask_app, db_uri='postgresql:///melon', echo=True):
