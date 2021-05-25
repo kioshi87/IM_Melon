@@ -1,6 +1,6 @@
 
 from model import db,  Melon, Subscriber,  connect_to_db 
-
+import sqlalchemy
 
 """CRUD operations."""
 def create_melons(melon_name, melon_qty,melon_type, melon_season):
@@ -11,9 +11,9 @@ def create_melons(melon_name, melon_qty,melon_type, melon_season):
 
     return melon
 
-def create_subscribers(email, password, name, subscriber_number):
+def create_subscribers(subscriber_number, name, email, password):
     """Create and return a new user."""
-    subcriber= Subscriber(email=email, password=password, name= name,subscriber_number=subscriber_number)
+    subcriber= Subscriber(subscriber_number=subscriber_number, name=name,email=email, password=password)
     db.session.add(subcriber)
     db.session.commit()
 
