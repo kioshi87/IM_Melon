@@ -37,7 +37,6 @@ def get_all_subscriber():
 
 
 
-
 # def get_subscriber_by_email(email):
 #     """Return a user by email."""
 #     return Subscribers.query.filter(Subscribers.email == email).first()

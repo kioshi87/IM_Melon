@@ -7,6 +7,7 @@ from server import app
 import server
 from model import connect_to_db, db
 from test_seed import create_test_data
+import crud 
 
 
 # def mock_new_melon_alert(name, quantity):
@@ -59,7 +60,8 @@ class TestMelonAlert(unittest.TestCase):
         email = self.browser.find_element_by_name('email')
         email.send_keys("Test1@test.com")
         phone = self.browser.find_element_by_name('phone')
-        phone.send_keys("6146029800")
+        # phone.send_keys("6146029800")
+        phone.send_keys("8172628759")
 
         btn = self.browser.find_element_by_xpath("//input[@type='submit']")
         
@@ -69,9 +71,13 @@ class TestMelonAlert(unittest.TestCase):
         time.sleep(2)
         alert = self.browser.switch_to.alert
         self.assertEqual(alert.text, "success")
+        alert.accept()
+        print("OK button on add subscriber")
+
 #################################################################################
 
     def test_addmelon(self):
+        crud.create_subscribers("8172628759", "Test", "Test@test.com", "12345")
         self.browser.get('http://localhost:5000/admin')
         time.sleep(1)
         name = self.browser.find_element_by_name('melonName')
@@ -91,6 +97,8 @@ class TestMelonAlert(unittest.TestCase):
         time.sleep(2)
         alert = self.browser.switch_to.alert
         self.assertEqual(alert.text, "success")
+        alert.accept()
+        print("OK button on alert message")
 
 if __name__ == "__main__":
     unittest.main()

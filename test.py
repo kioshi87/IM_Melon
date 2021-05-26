@@ -44,23 +44,35 @@ class MelonTestsDatabase(TestCase):
 
     def test_email(self):
         """ Test that subscriber 'email' has beeen created properly """
+        subscriber = create_subscribers(email = "Test@test.com", password = "12345", name ="Test1", subscriber_number = "1234567890")
+        self.assertEqual('Test@test.com', subscriber.email)
+        print(subscriber.email)
 
-        self.assertEqual('Jack@test.com', subscriber.email)
+    def test_email_not_intable(self):
+        """ Test that subscriber 'email' has beeen created properly """
+        subscriber = create_subscribers(email = "Test@test.com", password = "12345", name ="Test1", subscriber_number = "1234567890")
+        self.assertNotEqual('Test10@test.com', subscriber.email)
         print(subscriber.email)
 
 ################ Testing Melon Table #############################
     def test_melon_create(self):
         """Test Melon table and to make sure melon object created """
-        melon = crud.get_all_melons()
+        melon = create_melons(melon_name = "TestBitter", melon_qty=1, melon_type="hybrid", melon_season="summer")
 
         self.assertIsInstance(melon, Melon)
         print(melon)
 
     def test_melon_name(self):
         """ Test that the melon object 'melon_name' created """
-        melon= crud.get_all_melons()
+        melon = create_melons(melon_name = "TestHoney", melon_qty=1, melon_type="hybrid", melon_season="summer")
         
-        self.assertEqual('ananas', melon.melon_name)
+        self.assertEqual('TestHoney', melon.melon_name)
+
+    def test_melon_not_in_table(self):
+        """ Test that the melon object 'melon_name' created """
+        melon = create_melons(melon_name = "TestHoney", melon_qty=1, melon_type="hybrid", melon_season="summer")
+        
+        self.assertNotEqual('Testwater', melon.melon_name)
 
 ################### Test subscriber melon #######################
 
@@ -95,7 +107,7 @@ class FlaskTestBasic(TestCase):
     def test_index(self):
         """ Test homepage """
         result = self.client.get("/")
-        self.assertIn(b"Welcome to IM_Melon", result.data)
+        self.assertIn(b"IM_Melon", result.data)
         self.assertEqual(result.status_code, 200)
 
 
