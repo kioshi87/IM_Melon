@@ -6,7 +6,7 @@ function Navbar(props) {
         className="havbar-brand d-flex justify-content-center"
       >
         <img src="/static/img/watermelon.png" height="30" />
-        <span>BitMelon</span>
+        <span>IM_Melon</span>
       </ReactRouterDOM.Link>
 
       <section className="d-flex justify-content-center">

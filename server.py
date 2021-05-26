@@ -108,5 +108,8 @@ def index(path):
 
 ###################################################
 if __name__ == "__main__":
-    connect_to_db(app)
+    connect_to_db(app) #when we are running the actual server use this db
+
+    #connect_to_db(app, "postgresql:///testdb") #when we are running the test files use this db
+
     app.run(debug=True, host='0.0.0.0')
