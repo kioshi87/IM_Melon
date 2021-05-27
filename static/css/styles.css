@@ -1,4 +1,18 @@
-.melon-card {
+  .container-fluid {
+    text-align: center;
+    
+  }
+  
+body{
+  text-align: center;
+  background-image: url("/static/img/Types-of-Melons.jpg") !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: cover !important;
+  background-color: peachpuff !important;
+} 
+
+/* .melon-card {
     max-width: 23%;
     margin: 0.5rem;
   }
@@ -43,4 +57,4 @@
       transform: scale(1);
     }
   }
-  
+   */

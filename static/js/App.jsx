@@ -1,12 +1,13 @@
+
 function App() {
   const [user, setUser] = React.useState(false);
 
   return (
-    <React.Fragment>
-      <Navbar />
-      <div className="container-fluid row">
+    
+   <React.Fragment>
         
-        <ReactRouterDOM.Route exact path="/">
+      <Navbar />
+      <ReactRouterDOM.Route exact path="/">
           <Homepage />
         </ReactRouterDOM.Route>
         
@@ -18,7 +19,7 @@ function App() {
       <ReactRouterDOM.Route exact path="/admin">
         <Admin user={user}/>
       </ReactRouterDOM.Route>
-      </div>
+     
     </React.Fragment>
   );
 }

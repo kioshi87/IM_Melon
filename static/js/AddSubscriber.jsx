@@ -24,32 +24,36 @@ function Subscribe(props){
 
   return (
     <form onSubmit={(evt) => {handleSubmit(evt)}}>
-      <h5>Subscribe to new melon notifications!</h5>
+      <br></br>
+      <br></br>
+      <h5>Want to receive instant updates on new melons in stock? 
+        <br></br>
+        Sign up here!</h5>
       <div>
-      <label for="name">Enter your name</label>
+      <strong><label for="name">Name:</label></strong>
       <br/>
       <input required name="name" type="text" onChange={ evt => { setUsername(evt.target.value) } }></input>
       </div>
 
       <div>
-      <label for="password">Enter your password</label>
+      <strong><label for="password">Password:</label></strong>
       <br/>
       <input required name="password" type="password" onChange={ evt => { setPassword(evt.target.value) } }></input>
       </div>
 
       <div>
-      <label for="email">Enter your email address</label>
+      <strong><label for="email">Email Address:</label></strong>
       <br/>
       <input required name="email" type="email" onChange={ evt => { setEmail(evt.target.value) } }></input>
       </div>
 
       <div>
-      <label for="phone">Enter your phone number</label>
+      <strong><label for="phone">Phone Number:</label></strong>
       <br/>
       
       <input required name="phone"  onChange={ evt => { setPhone(evt.target.value) } }></input>
       </div>
-      
+      <br></br>
       <div>
       <input type='submit' />
       </div>

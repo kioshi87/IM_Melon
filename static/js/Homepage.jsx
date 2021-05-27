@@ -1,10 +1,22 @@
+
+
 function Homepage(props) {
     return (
+
       <div id="home-banner" className="row">
         <div className="col">
-          <h1>IM_Melon</h1>
-          <p className="lead">Get melon updates via text!</p>
-        </div>
+
+        <br></br>
+        <br></br>
+        <br></br>
+
+          <h1><strong>IM_Melon</strong></h1>
+          <p className="lead">Get instant melon updates via text!</p>
+          </div>
       </div>
+
     );
   }  
+
+
+  
